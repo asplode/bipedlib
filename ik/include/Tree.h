@@ -1,6 +1,6 @@
 
-#include "LinearR3.h"
-#include "Node.h"
+#include <biped/linearr3.h>
+#include <biped/node.h>
 
 #ifndef _CLASS_TREE
 #define _CLASS_TREE

@@ -1,5 +1,5 @@
 #include <math.h>
-#include "LinearR3.h"
+#include <biped/linearr3.h>
 
 #ifdef WIN32
 #include <windows.h>

@@ -13,7 +13,7 @@
 #include <GL/glut.h>
 #include <GL/glui.h>
 
-#include "Main.h"
+#include <biped/main.h>
 
 // Make slowdown factor larger to make the simulation take larger, less frequent steps
 // Make the constant factor in Tstep larger to make time pass more quickly
@@ -25,7 +25,7 @@ const double Tstep = 0.0005*(double)SlowdownFactor;		// Time step
 double T = -Tstep;				// Current time
 
 /*   FOLLOWING BLOCK OF CODE USED FOR MAKING MOVIES
-#include "RgbImage.h"
+#include <biped/rgbimage.h>
 RgbImage theScreenImage;
 int DumpCounter = 0;
 int DumpCounterStart = 1000;

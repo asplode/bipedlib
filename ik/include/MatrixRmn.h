@@ -32,8 +32,8 @@
 
 #include <math.h>
 #include <assert.h>
-#include "LinearR3.h"
-#include "VectorRn.h"
+#include <biped/linearr3.h>
+#include <biped/vectorrn.h>
 
 class MatrixRmn {
 

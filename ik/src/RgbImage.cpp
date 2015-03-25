@@ -18,11 +18,11 @@
  *
  */
 
-#include "RgbImage.h"
+#include <biped/rgbimage.h>
 
 #ifndef RGBIMAGE_DONT_USE_OPENGL
 #include <windows.h>
-#include "GL/gl.h"
+#include <biped/gl/gl.h>
 #endif
 
 RgbImage::RgbImage( int numRows, int numCols )

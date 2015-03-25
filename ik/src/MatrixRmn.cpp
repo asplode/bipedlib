@@ -28,7 +28,7 @@
 //		To do: better handling of resizing.
 //
 
-#include "MatrixRmn.h"
+#include <biped/matrixrmn.h>
 
 MatrixRmn MatrixRmn::WorkMatrix;		// Temporary work matrix
 

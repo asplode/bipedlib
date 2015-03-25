@@ -20,7 +20,7 @@
  *
  */
 
-#include "LinearR2.h"
+#include <biped/linearr2.h>
 
 
 #include <assert.h>

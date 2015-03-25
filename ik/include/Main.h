@@ -1,7 +1,7 @@
 
-#include "Node.h"
-#include "Tree.h"
-#include "Jacobian.h"
+#include <biped/node.h>
+#include <biped/tree.h>
+#include <biped/jacobian.h>
 
 #ifndef _MAIN_HEADER
 #define _MAIN_HEADER

@@ -21,9 +21,9 @@
  */
 
 
-#include "MathMisc.h"
-#include "LinearR3.h"
-#include "Spherical.h"
+#include <biped/mathmisc.h>
+#include <biped/linearr3.h>
+#include <biped/spherical.h>
 
 // ******************************************************
 // * VectorR3 class - math library functions				*

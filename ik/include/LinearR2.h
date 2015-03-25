@@ -43,7 +43,7 @@
 #include <math.h>
 #include <assert.h>
 #include <iostream>
-#include "MathMisc.h"
+#include <biped/mathmisc.h>
 using namespace std;
 
 class VectorR2;				// R2 Vector

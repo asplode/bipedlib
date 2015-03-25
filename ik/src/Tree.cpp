@@ -10,9 +10,9 @@ using namespace std;
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#include "LinearR3.h"
-#include "Tree.h"
-#include "Node.h"
+#include <biped/linearr3.h>
+#include <biped/tree.h>
+#include <biped/node.h>
 
 Tree::Tree()
 {

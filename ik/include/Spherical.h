@@ -38,9 +38,9 @@
 #ifndef SPHERICAL_H
 #define SPHERICAL_H
 
-#include "LinearR3.h"
-#include "LinearR4.h"
-#include "MathMisc.h"
+#include <biped/linearr3.h>
+#include <biped/linearr4.h>
+#include <biped/mathmisc.h>
 
 class SphericalInterpolator;		// Spherical linear interpolation of vectors
 class SphericalBSpInterpolator;	// Spherical Bspline interpolation of vector

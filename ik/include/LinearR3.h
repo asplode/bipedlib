@@ -48,7 +48,7 @@
 #include <math.h>
 #include <assert.h>
 #include <iostream>
-#include "MathMisc.h"
+#include <biped/mathmisc.h>
 using namespace std;
 
 class VectorR3;				// Space Vector (length 3)

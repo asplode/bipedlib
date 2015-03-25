@@ -2,7 +2,7 @@
 #ifndef _CLASS_NODE
 #define _CLASS_NODE
 
-#include "LinearR3.h"
+#include <biped/linearr3.h>
 
 enum Purpose {JOINT, EFFECTOR};
 

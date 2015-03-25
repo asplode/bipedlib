@@ -10,9 +10,9 @@
 #include <GL/glut.h>
 #include <GL/glui.h>
 
-#include "LinearR3.h"
-#include "MathMisc.h"
-#include "Node.h"
+#include <biped/linearr3.h>
+#include <biped/mathmisc.h>
+#include <biped/node.h>
 
 extern int RotAxesOn;
 
