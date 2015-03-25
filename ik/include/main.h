@@ -12,9 +12,8 @@
 
 #define RADIAN(X)	((X)*RadiansToDegrees)
 
-#if defined(BIPED_GL)
-
 const char *WINDOWTITLE = { "Kinematics -- Sam Buss and Jin-Su Kim" };
+#if defined(BIPED_GLUI)
 const char *GLUITITLE   = { "User Interface Window" };
 #endif
 
@@ -40,17 +39,15 @@ enum Method {JACOB_TRANS, PURE_PSEUDO, DLS, SDLS, COMPARE};
 #define QUIT		1
 #define RUNTEST		2
 
-#if defined(BIPED_GL)
 const float BACKCOLOR[] = { 0., 0., 0., 0. };
 
 const float AXES_COLOR[] = { 1., .5, 0. };
 const float AXES_WIDTH   = { 3. };
-#endif
 
 #define FALSE	0
 #define TRUE	1
 
-#if defined(BIPED_GL)
+#if defined(BIPED_GLUI)
 GLUI *	Glui;			/* instance of glui window		*/
 #endif
 
@@ -74,19 +71,19 @@ int UseJacobianTargets;
 int EigenVectorsOn;
 int RotAxesOn;
 
-#if defined(BIPED_GL)
 void	Animate( void );
 void	Axes( float length );
 void	Buttons( int );
 void	Display( void );
+#if defined(BIPED_GLUI)
 void	InitGlui( void );
+#endif
 void	InitGraphics( void );
 void	InitLists( void );
 void	Keyboard(unsigned char, int, int);
 void	MouseButton( int, int, int, int );
 void	MouseMotion( int, int );
 void	resizeWindow( int, int );
-#endif
 
 void	Reset( void );
 void RunTest();

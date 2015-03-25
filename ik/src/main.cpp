@@ -19,11 +19,13 @@
 // Make slowdown factor larger to make the simulation take larger, less frequent steps
 // Make the constant factor in Tstep larger to make time pass more quickly
 //const int SlowdownFactor = 40;
-const int SlowdownFactor = 10;		// Make higher to take larger steps less frequently
+const int SlowdownFactor = 1;		// Make higher to take larger steps less frequently
 const int SleepsPerStep=SlowdownFactor;
 int SleepCounter=0;
 const double Tstep = 0.0005*(double)SlowdownFactor;		// Time step
 double T = -Tstep;				// Current time
+
+double speed = 20;
 
 /*   FOLLOWING BLOCK OF CODE USED FOR MAKING MOVIES
 #include <biped/ik/rgbimage.h>
@@ -204,14 +206,14 @@ int main( int argc, char *argv[] )
 	fprintf(fp, "X = [\n");
 	*/
 
-#if defined(BIPED_GL)
 	glutInit( &argc, argv );
 	InitGraphics();
 	InitLists();
 	Reset();
+#if defined(BIPED_GLUI)
 	InitGlui();
-	glutMainLoop();
 #endif
+	glutMainLoop();
 	/*
 	fprintf(fp, "]\n");
 	fclose(fp);
@@ -219,8 +221,6 @@ int main( int argc, char *argv[] )
 
 	return 0;
 }
-
-#if defined(BIPED_GL)
 
 void Animate( void )
 {
@@ -231,19 +231,23 @@ void Animate( void )
 void Buttons( int id )
 {
 	switch( id ) {
-	case RESET:
-		Reset();
-		break;
-	case QUIT:
-		Glui->close();
-		glFinish();
-		glutDestroyWindow( GrWindow );
-		exit( 0 );
-	case RUNTEST:
-		RunTest();
-		break;
+      case RESET:
+          Reset();
+          break;
+      case QUIT:
+#if defined(BIPED_GLUI)
+          Glui->close();
+#endif
+          glFinish();
+          glutDestroyWindow( GrWindow );
+          exit( 0 );
+      case RUNTEST:
+          RunTest();
+          break;
 	}
+#if defined(BIPED_GLUI)
 	Glui->sync_live();
+#endif
 }
 
 void DrawTarget(double T)
@@ -265,7 +269,6 @@ void DrawTarget(double T)
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_ambient_and_diffuse);
 }
 
-#endif
 
 int numIteration = 1;
 double error = 0.0;
@@ -289,12 +292,10 @@ extern double dsnorm[];
 
 void Display( void )
 {
-
 	DoUpdateStep();
 
 	float scale2;		/* real glui scale factor		*/
 
-#if defined(BIPED_GL)
 	glutSetWindow( GrWindow );
 
 	glDrawBuffer( GL_BACK );
@@ -335,14 +336,21 @@ void Display( void )
 		glEnable(GL_LIGHTING);
 	}
 
+#if defined(BIPED_GLUI)
 	GLUI_Master.set_glutIdleFunc( Animate );
-
+#else
+    glutIdleFunc( Animate );
+#endif
+    
 	DrawTarget(T);
 
-	if (WhichMethod != COMPARE) {
+	if (WhichMethod != COMPARE)
+    {
 		Tree* tree = ( WhichShape==YSHAPE ) ? &treeY : &treeDoubleY;
 		tree->Draw();
-	} else {
+	}
+    else
+    {
 		GLfloat blue[] = { 0.2f, 0.2f, 0.8f, 1.0f };
 		GLfloat green[] = { 0.3f, 0.6f, 0.3f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
@@ -351,7 +359,8 @@ void Display( void )
 		treeDoubleYSDLS.Draw();
 	}
 
-	if (EigenVectorsOn) {
+	if (EigenVectorsOn)
+    {
 		if ( WhichMethod == SDLS || WhichMethod == DLS || WhichMethod == PURE_PSEUDO ) {
 			Jacobian* jacob;
 			switch ( WhichShape ) {
@@ -362,6 +371,8 @@ void Display( void )
 					jacob = jacobDoubleY;
 					break;
 				default:
+                    fprintf(stderr,"unsupported shape: %d\n", WhichShape);
+                    exit(1);
 					assert ( 0 );
 			}
 			jacob->DrawEigenVectors();
@@ -387,11 +398,9 @@ void Display( void )
 	*/
 
 	glutSwapBuffers();
-#endif
 }
 
-#if defined(BIPED_GL)
-
+#if defined(BIPED_GLUI)
 void InitGlui(void)
 {
 	GLUI_Panel *panel;
@@ -449,6 +458,8 @@ void InitGlui(void)
 	Glui->set_main_gfx_window( GrWindow );
 	GLUI_Master.set_glutIdleFunc( NULL );
 }
+#endif // BIPED_GLUI
+
 
 void InitGraphics( void )
 {
@@ -591,11 +602,39 @@ void MouseMotion( int x, int y )
 
 void Keyboard(unsigned char c, int x, int y)
 {
-	Glui->sync_live();
+	//Glui->sync_live();
 	glutSetWindow(GrWindow);
 	glutPostRedisplay();
+
+    switch( c )
+    {
+      case 'r':
+          Buttons(RUNTEST);
+          break;
+      case 't':
+          Buttons(RESET);
+          break;
+      case '1':
+          WhichShape = YSHAPE;
+          break;
+      case '2':
+          WhichShape = DBLYSHAPE;
+          break;
+      case 'e':
+          EigenVectorsOn = !EigenVectorsOn;
+          break;
+      case 'm':
+          WhichMethod = (WhichMethod+1)%5;
+          fprintf(stderr,"method: %d\n",WhichMethod);
+          break;
+      case '+':
+          speed *= 1.3;
+          break;
+      case '-':
+          speed /= 1.3;
+          break;
+    }
 }
-#endif // BIPED_GL
 
 void Reset( void )
 {
@@ -648,15 +687,15 @@ void Reset( void )
 void UpdateTargets( double T ) {
 	switch (WhichShape) {
 	case YSHAPE:
-		target[0].Set(2.0f+1.5*sin(6*T), -0.5+1.7f+0.2*sin(7*T), 0.3f+0.2*sin(8*T));
-		target[1].Set(-0.7f+0.4*sin(4*T), -0.5+1.3f+0.3*sin(4*T), -0.2f+0.2*sin(3*T));
+		target[0].Set(2.0f+1.5*sin(6*T*speed), -0.5+1.7f+0.2*sin(7*T*speed), 0.3f+0.2*sin(8*T*speed));
+		target[1].Set(-0.7f+0.4*sin(4*T*speed), -0.5+1.3f+0.3*sin(4*T*speed), -0.2f+0.2*sin(3*T*speed));
 		assert( treeY.GetNumEffector() == 2 );
 		break;
 	case DBLYSHAPE:
-		target[0].Set(2.0f+1.5*sin(3*T)*2, -0.5+1.0f+0.2*sin(7*T)*2, 0.3f+0.7*sin(5*T)*2);
-		target[1].Set(0.5f+0.4*sin(4*T)*2, -0.5+0.9f+0.3*sin(4*T)*2, -0.2f+1.0*sin(3*T)*2);
-		target[2].Set(-0.5f+0.8*sin(6*T)*2, -0.5+1.1f+0.2*sin(7*T)*2, 0.3f+0.5*sin(8*T)*2);
-		target[3].Set(-1.6f+0.8*sin(4*T)*2, -0.5+0.8f+0.3*sin(4*T)*2, -0.2f+0.3*sin(3*T)*2);
+		target[0].Set(2.0f+1.5*sin(3*T*speed)*2, -0.5+1.0f+0.2*sin(7*T*speed)*2, 0.3f+0.7*sin(5*T*speed)*2);
+		target[1].Set(0.5f+0.4*sin(4*T*speed)*2, -0.5+0.9f+0.3*sin(4*T*speed)*2, -0.2f+1.0*sin(3*T*speed)*2);
+		target[2].Set(-0.5f+0.8*sin(6*T*speed)*2, -0.5+1.1f+0.2*sin(7*T*speed)*2, 0.3f+0.5*sin(8*T*speed)*2);
+		target[3].Set(-1.6f+0.8*sin(4*T*speed)*2, -0.5+0.8f+0.3*sin(4*T*speed)*2, -0.2f+0.3*sin(3*T*speed)*2);
 		assert( treeDoubleY.GetNumEffector() == 4);
 		break;
 	}
@@ -673,15 +712,18 @@ void DoUpdateStep() {
 		} 
 
 		Jacobian *jacob;
-		switch ( WhichShape ) {
-			case YSHAPE:
-				jacob = jacobY;
-				break;
-			case DBLYSHAPE:
-				jacob = jacobDoubleY;
-				break;
-			default:
-				assert ( 0 );
+		switch ( WhichShape )
+        {
+          case YSHAPE:
+              jacob = jacobY;
+              break;
+          case DBLYSHAPE:
+              jacob = jacobDoubleY;
+              break;
+          default:
+              assert ( 0 );
+              fprintf(stderr,"unsupported shape: %d\n", WhichShape);
+              exit(1);
 		}
 
 		if ( UseJacobianTargets ) {
