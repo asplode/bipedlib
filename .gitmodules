@@ -1,0 +1,3 @@
+[submodule "splib"]
+	path = splib
+	url = git@github.com:Swarmplanet/se2-splib.git
