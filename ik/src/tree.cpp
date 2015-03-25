@@ -6,13 +6,11 @@ using namespace std;
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+#include <biped/ik/opengl.h>
 
-#include <biped/linearr3.h>
-#include <biped/tree.h>
-#include <biped/node.h>
+#include <biped/ik/linearr3.h>
+#include <biped/ik/tree.h>
+#include <biped/ik/node.h>
 
 Tree::Tree()
 {
@@ -74,10 +72,10 @@ Node* Tree::SearchJoint(Node* node, int index)
 		if (node->seqNumJoint == index) {
 			return node;
 		} else {
-			if (ret = SearchJoint(node->left, index)) {
+			if ( (ret = SearchJoint(node->left, index) )) {
 				return ret;
 			}
-			if (ret = SearchJoint(node->right, index)) {
+			if ( (ret = SearchJoint(node->right, index) )) {
 				return ret;
 			}
 			return NULL;
@@ -103,10 +101,10 @@ Node* Tree::SearchEffector(Node* node, int index)
 		if (node->seqNumEffector == index) {
 			return node;
 		} else {
-			if (ret = SearchEffector(node->left, index)) {
+			if ((ret = SearchEffector(node->left, index))) {
 				return ret;
 			}
-			if (ret = SearchEffector(node->right, index)) {
+			if ((ret = SearchEffector(node->right, index))) {
 				return ret;
 			}
 			return NULL;

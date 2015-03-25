@@ -5,14 +5,15 @@
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <GL/glui.h>
+#include <biped/ik/opengl.h>
 
-#include <biped/linearr3.h>
-#include <biped/mathmisc.h>
-#include <biped/node.h>
+#include <biped/ik/linearr3.h>
+#include <biped/ik/mathmisc.h>
+#include <biped/ik/node.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wunused-variable"
 
 extern int RotAxesOn;
 
@@ -61,7 +62,6 @@ void Node::ComputeW(void)
 // Draw the box from the origin to point r.
 void Node::DrawBox() const
 {
-
 	glPushMatrix();
 
 	/*	if (r.getx()) {
@@ -135,3 +135,5 @@ void Node::InitNode()
 {
 	theta = 0.0;
 }
+
+#pragma clang diagnostic pop

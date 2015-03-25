@@ -24,7 +24,7 @@
 // VectorRn:  Vector over Rn  (Variable length vector)
 //
 
-#include <biped/vectorrn.h>
+#include <biped/ik/vectorrn.h>
 
 VectorRn VectorRn::WorkVector;
 

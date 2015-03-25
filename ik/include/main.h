@@ -1,18 +1,22 @@
 
-#include <biped/node.h>
-#include <biped/tree.h>
-#include <biped/jacobian.h>
+#include <biped/ik/node.h>
+#include <biped/ik/tree.h>
+#include <biped/ik/jacobian.h>
 
 #ifndef _MAIN_HEADER
 #define _MAIN_HEADER
 
+#ifdef _WIN32
 #pragma comment (lib, "glui32.lib")    /* link with Win32 GLUI lib */
-
+#endif
 
 #define RADIAN(X)	((X)*RadiansToDegrees)
 
+#if defined(BIPED_GL)
+
 const char *WINDOWTITLE = { "Kinematics -- Sam Buss and Jin-Su Kim" };
 const char *GLUITITLE   = { "User Interface Window" };
+#endif
 
 const float ANGFACT = { 1. };
 const float SCLFACT = { 0.005f };
@@ -36,18 +40,23 @@ enum Method {JACOB_TRANS, PURE_PSEUDO, DLS, SDLS, COMPARE};
 #define QUIT		1
 #define RUNTEST		2
 
+#if defined(BIPED_GL)
 const float BACKCOLOR[] = { 0., 0., 0., 0. };
 
 const float AXES_COLOR[] = { 1., .5, 0. };
 const float AXES_WIDTH   = { 3. };
+#endif
 
 #define FALSE	0
 #define TRUE	1
 
+#if defined(BIPED_GL)
+GLUI *	Glui;			/* instance of glui window		*/
+#endif
+
 int	ActiveButton;		/* current button that is down		*/
 int	AxesList;		/* list to hold the axes		*/
 int	AxesOn;			/* ON or OFF				*/
-GLUI *	Glui;			/* instance of glui window		*/
 int	GluiWindow;		/* the glut id for the glui window	*/
 int	GrWindow;		/* window id for graphics window	*/
 int	LeftButton;		/* either ROTATE or SCALE		*/
@@ -65,6 +74,7 @@ int UseJacobianTargets;
 int EigenVectorsOn;
 int RotAxesOn;
 
+#if defined(BIPED_GL)
 void	Animate( void );
 void	Axes( float length );
 void	Buttons( int );
@@ -76,6 +86,8 @@ void	Keyboard(unsigned char, int, int);
 void	MouseButton( int, int, int, int );
 void	MouseMotion( int, int );
 void	resizeWindow( int, int );
+#endif
+
 void	Reset( void );
 void RunTest();
 void RunTestA();

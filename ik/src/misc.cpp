@@ -1,14 +1,11 @@
 #include <math.h>
-#include <biped/linearr3.h>
+#include <biped/ik/linearr3.h>
 
 #ifdef WIN32
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <GL/glui.h>
+#include <biped/ik/opengl.h>
 
 /****************************************************************
 							 Axes 

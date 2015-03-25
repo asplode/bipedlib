@@ -4,16 +4,17 @@
 #include <assert.h>
 #include <ctype.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wunused-variable"
+
 #ifdef WIN32
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <GL/glui.h>
+#include <biped/ik/opengl.h>
 
-#include <biped/main.h>
+#include <biped/ik/main.h>
 
 // Make slowdown factor larger to make the simulation take larger, less frequent steps
 // Make the constant factor in Tstep larger to make time pass more quickly
@@ -25,7 +26,7 @@ const double Tstep = 0.0005*(double)SlowdownFactor;		// Time step
 double T = -Tstep;				// Current time
 
 /*   FOLLOWING BLOCK OF CODE USED FOR MAKING MOVIES
-#include <biped/rgbimage.h>
+#include <biped/ik/rgbimage.h>
 RgbImage theScreenImage;
 int DumpCounter = 0;
 int DumpCounterStart = 1000;
@@ -203,13 +204,14 @@ int main( int argc, char *argv[] )
 	fprintf(fp, "X = [\n");
 	*/
 
+#if defined(BIPED_GL)
 	glutInit( &argc, argv );
 	InitGraphics();
 	InitLists();
 	Reset();
 	InitGlui();
 	glutMainLoop();
-
+#endif
 	/*
 	fprintf(fp, "]\n");
 	fclose(fp);
@@ -217,6 +219,8 @@ int main( int argc, char *argv[] )
 
 	return 0;
 }
+
+#if defined(BIPED_GL)
 
 void Animate( void )
 {
@@ -261,6 +265,8 @@ void DrawTarget(double T)
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_ambient_and_diffuse);
 }
 
+#endif
+
 int numIteration = 1;
 double error = 0.0;
 double errorDLS = 0.0;
@@ -288,6 +294,7 @@ void Display( void )
 
 	float scale2;		/* real glui scale factor		*/
 
+#if defined(BIPED_GL)
 	glutSetWindow( GrWindow );
 
 	glDrawBuffer( GL_BACK );
@@ -380,7 +387,10 @@ void Display( void )
 	*/
 
 	glutSwapBuffers();
+#endif
 }
+
+#if defined(BIPED_GL)
 
 void InitGlui(void)
 {
@@ -585,6 +595,7 @@ void Keyboard(unsigned char c, int x, int y)
 	glutSetWindow(GrWindow);
 	glutPostRedisplay();
 }
+#endif // BIPED_GL
 
 void Reset( void )
 {
@@ -626,8 +637,10 @@ void Reset( void )
 	treeDoubleYSDLS.Compute();
 	jacobDoubleYSDLS->Reset();
 
+#if defined(BIPED_GL)
 	glutSetWindow( GrWindow );
 	glutPostRedisplay();
+#endif
 }
 
 // Update target positions
@@ -929,3 +942,5 @@ void RunTestA()
 	}
 }
 
+
+#pragma clang diagnostic pop

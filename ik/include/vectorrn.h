@@ -32,7 +32,7 @@
 
 #include <math.h>
 #include <assert.h>
-#include <biped/linearr3.h>
+#include <biped/ik/linearr3.h>
 
 class VectorRn {
 	friend class MatrixRmn;
@@ -235,4 +235,4 @@ inline double Dot( const VectorRn& u, const VectorRn& v )
 	return res;
 }
 
-#endif VECTOR_RN_H
+#endif // VECTOR_RN_H

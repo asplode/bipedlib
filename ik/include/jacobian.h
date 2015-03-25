@@ -1,10 +1,10 @@
 
-#include <biped/node.h>
-#include <biped/tree.h>
-#include <biped/mathmisc.h>
-#include <biped/linearr3.h>
-#include <biped/vectorrn.h>
-#include <biped/matrixrmn.h>
+#include <biped/ik/node.h>
+#include <biped/ik/tree.h>
+#include <biped/ik/mathmisc.h>
+#include <biped/ik/linearr3.h>
+#include <biped/ik/vectorrn.h>
+#include <biped/ik/matrixrmn.h>
 
 #ifndef _CLASS_JACOBIAN
 #define _CLASS_JACOBIAN

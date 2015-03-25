@@ -9,16 +9,13 @@ using namespace std;
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <GL/glui.h>
+#include <biped/ik/opengl.h>
 
-#include <biped/jacobian.h>
+#include <biped/ik/jacobian.h>
 
 void Arrow(const VectorR3& tail, const VectorR3& head);
 
-extern RestPositionOn;
+extern bool RestPositionOn;
 extern VectorR3 target[];
 
 // Optimal damping values have to be determined in an ad hoc manner  (Yuck!)

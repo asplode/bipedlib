@@ -32,8 +32,8 @@
 
 #include <math.h>
 #include <assert.h>
-#include <biped/linearr3.h>
-#include <biped/vectorrn.h>
+#include <biped/ik/linearr3.h>
+#include <biped/ik/vectorrn.h>
 
 class MatrixRmn {
 
@@ -398,4 +398,4 @@ inline void MatrixRmn::AddArrayScale( long length, const double* from, long from
 
 
 
-#endif MATRIX_RMN_H
+#endif // MATRIX_RMN_H

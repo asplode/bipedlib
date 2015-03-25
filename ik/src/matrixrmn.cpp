@@ -28,7 +28,11 @@
 //		To do: better handling of resizing.
 //
 
-#include <biped/matrixrmn.h>
+#include <biped/ik/matrixrmn.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wunused-variable"
 
 MatrixRmn MatrixRmn::WorkMatrix;		// Temporary work matrix
 
@@ -981,3 +985,4 @@ bool MatrixRmn::DebugCalcBidiagCheck( const MatrixRmn& U, const VectorRn& w, con
 	return ret;
 }
 
+#pragma clang diagnostic pop
